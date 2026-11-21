@@ -249,6 +249,7 @@ function render() {
 
 function show(key) {
   active = key;
+  $('gap-source').hidden = key !== 'gap';
   const config = tools[key];
   for (const [id, link] of Object.entries(links)) {
     if (id === key) link.setAttribute('aria-current', 'page');
