@@ -52,8 +52,7 @@ const tools = {
       { ...pace, label: 'Темп на склоне' },
       { id: 'gradient', label: 'Уклон', unit: '%', value: '4', min: -45, max: 45, slider: true, presets: [[-5, '−5%'], [0, 'Ровно'], [5, '+5%'], [10, '+10%']] }
     ],
-    calculate: ({ pace, gradient }) => amount(secondsText(window.PaceMath.gap(pace, gradient)), 'мин/км', secondsText(pace) + ' мин/км при уклоне ' + gradeText(gradient)),
-    details: true
+    calculate: ({ pace, gradient }) => amount(secondsText(window.PaceMath.gap(pace, gradient)), 'мин/км', secondsText(pace) + ' мин/км при уклоне ' + gradeText(gradient))
   }
 };
 const defaults = Object.fromEntries(Object.entries(tools).map(([key, config]) => [key, Object.fromEntries(config.fields.map(field => [field.id, field.value]))]));
@@ -236,11 +235,9 @@ function render() {
     share.searchParams.set('text', exportText());
     $('telegram').href = share;
   }
-  if (!config.details) {
-    $('below').replaceChildren();
-    $('below').hidden = !result.rows;
-    if (result.rows) $('below').append(node('h2', 'План отсечек'), renderTable(result.rows));
-  }
+  $('below').replaceChildren();
+  $('below').hidden = !result.rows;
+  if (result.rows) $('below').append(node('h2', 'План отсечек'), renderTable(result.rows));
   if (active === 'gap' && valid) {
     const url = route(active);
     url.searchParams.set('pace', secondsText(input.pace));
@@ -262,15 +259,6 @@ function show(key) {
   $('result-label').textContent = config.result;
   document.title = config.title + ' · Беговой калькулятор';
   $('fields').replaceChildren(...config.fields.map(fieldNode));
-  $('below').replaceChildren();
-  if (config.details) {
-    const details = node('details');
-    const source = node('a', 'Исследование Minetti et al.', { href: 'https://doi.org/10.1152/japplphysiol.01177.2001' });
-    const reference = node('a', 'Калькулятор Runalyze', { href: 'https://runalyze.com/tools/grade-adjusted-pace-calculator' });
-    details.append(node('summary', 'Как считается GAP'), node('p', 'GAP = темп × (C(0) / C(уклона))^0,83, где C — энергозатраты по модели Minetti. Измерения относятся к постоянному уклону. На результат реальной пробежки также влияют покрытие, ветер и усталость.'), source, document.createTextNode(' · '), reference);
-    $('below').append(details);
-    $('below').hidden = false;
-  }
   render();
 }
 
