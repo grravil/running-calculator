@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Калькулятор темпа бега с поправкой на уклон. Рассчитайте эквивалентный темп на ровной поверхности."><title>Темп и рельеф — калькулятор GAP</title><link rel="stylesheet" href="style.css"><script src="math.js" defer></script><script src="app.js" defer></script></head>
-<body>
-<header><a class="brand" href="./"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 23 12 8l5 8 4-5 7 12M9 23l6-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>Темп и рельеф</a><a href="#method">Как это работает</a></header>
-<main><div class="intro"><h1>Уклон меняется.<br>Усилие остаётся.</h1><p>Узнайте, какому темпу на ровной дороге соответствует<br class="desktop"> ваш бег в подъём или на спуске.</p></div>
-<section class="calculator" aria-label="Калькулятор темпа">
-<form id="form" novalidate><h2>Ваш пробег</h2><label for="pace">Темп на склоне</label><div class="pace-row"><input id="pace" name="pace" value="5:00" inputmode="decimal" maxlength="6" aria-describedby="pace-hint"><span class="pace-unit">мин/км</span></div><p class="hint" id="pace-hint">Минуты : секунды</p>
-<div class="grade-label"><label for="gradient">Уклон</label><div class="grade-number"><input id="gradient" type="number" min="-45" max="45" step="0.1" value="4" aria-describedby="grade-hint"><span>%</span></div></div><input id="slider" type="range" min="-45" max="45" step="0.1" value="4" aria-label="Уклон в процентах"><div class="range-labels"><span>−45% · спуск</span><span>0</span><span>+45% · подъём</span></div><div class="presets" aria-label="Быстрый выбор уклона"><button type="button" data-grade="-5">−5%</button><button type="button" data-grade="0">Ровно</button><button type="button" data-grade="5">+5%</button><button type="button" data-grade="10">+10%</button></div><p class="hint" id="grade-hint">+4% — это 4 м подъёма на 100 м по горизонтали.</p><p id="error" class="error" role="alert" hidden></p><div class="form-footer"><span>Расчёт обновляется автоматически</span><button type="reset" class="text-button">Сбросить</button></div></form>
-<div class="result" aria-live="polite" aria-atomic="true"><div class="result-top"><h2>Темп на ровной дороге</h2><span class="tag">GAP</span></div><div class="pace-result"><output id="gap">—</output><span class="result-unit">/ км</span></div><p id="comparison" class="comparison">Введите темп и уклон для расчёта</p><div class="terrain"><svg viewBox="0 0 420 126" role="img" aria-label="Схема уклона, вертикальный масштаб увеличен"><path id="hill-area" d="M20 100 L400 45 L400 110 L20 110Z" fill="#d9e7d1"/><path d="M20 100H400" stroke="#8a9d82" stroke-dasharray="4 5"/><path id="hill-line" d="M20 100L400 45" stroke="#375f35" stroke-width="3" fill="none"/><circle id="hill-point" cx="210" cy="72.5" r="6" fill="#375f35" stroke="#f1f6ec" stroke-width="3"/></svg><div class="terrain-legend"><span id="terrain-label">Подъём +4%</span><span>То же усилие на равнине</span></div></div><div class="result-bottom"><span>Модель энергозатрат Minetti</span><button id="share" type="button">Скопировать ссылку</button></div><p id="share-status" role="status" class="hint"></p></div>
-</section>
-<section class="explanation" id="method"><div><h2>Один темп.<br>Разные усилия.</h2><p>5:00 на подъёме и 5:00 на равнине — разная нагрузка. GAP (Grade Adjusted Pace) приводит темп к эквиваленту на ровной поверхности.</p></div><div class="method-text"><h3>Что учитывает расчёт</h3><p>Темп и постоянный уклон участка. На подъёме эквивалентный темп обычно быстрее, на умеренном спуске — медленнее. На очень крутом спуске энергозатраты снова растут.</p><details><summary>Формула и ограничения</summary><p>Используется модель Minetti et al. (2002). Для уклона i в долях единицы:</p><code>C(i) = 155.4i⁵ − 30.4i⁴ − 43.3i³ + 46.3i² + 19.5i + 3.6</code><p>GAP = темп × (C(0) / C(i))<sup>0,83</sup>. Модель энергозатрат — Minetti et al. (2002). Преобразование в темп с показателем 0,83 соответствует коду калькулятора Runalyze. Диапазон: от −45% до +45%. Это оценка энергозатрат, а не прогноз результата: покрытие, ветер, жара, усталость и техника спуска не учитываются. Результаты часов могут отличаться.</p><a href="https://doi.org/10.1152/japplphysiol.01177.2001" target="_blank" rel="noopener">Исследование Minetti et al.</a> · <a href="https://runalyze.com/tools/grade-adjusted-pace-calculator" target="_blank" rel="noopener">Калькулятор и пояснение Runalyze</a></details></div></section>
-<footer><span>Темп и рельеф</span><span>Для бега с пониманием.</span><a href="https://runalyze.com/tools/grade-adjusted-pace-calculator" target="_blank" rel="noopener">По мотивам калькулятора Runalyze</a></footer></main>
-</body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Калькулятор GAP</title>
+  <script>
+    const destination = new URL('../', location.href);
+    destination.search = location.search;
+    destination.searchParams.set('tab', 'gap');
+    location.replace(destination);
+  </script>
+</head>
+<body><a href="../?tab=gap">Открыть калькулятор GAP</a></body>
+</html>
