@@ -1,15 +1,46 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>running-calculator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" crossorigin src="./assets/index-BUN_e_uG.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-COcD_cd8.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f3f1e9">
+  <meta name="description" content="Темп, время финиша, отсечки по кругам и поправка на уклон.">
+  <title>Беговой калькулятор · Runдом</title>
+  <link rel="stylesheet" href="./calculator.css">
+  <script src="./gap/math.js" defer></script>
+  <script type="module" src="./calculator.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">К калькулятору</a>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <span class="identity"><span class="track-mark" aria-hidden="true"></span>Беговой калькулятор</span>
+      <a href="https://t.me/rundom_notes" target="_blank" rel="noopener">Runдом</a>
+    </div>
+  </header>
+  <nav class="navigation" aria-label="Калькуляторы"><div class="wrap tabs" id="tabs"></div></nav>
+  <main class="wrap" id="workspace">
+    <div class="page-title"><h1 id="title">Темп</h1><p id="description"></p></div>
+    <div class="workbench">
+      <form class="entry" id="entry" novalidate>
+        <div id="fields"></div>
+        <div class="form-end"><button type="reset" class="quiet">Сбросить</button></div>
+      </form>
+      <section class="readout" aria-labelledby="result-label">
+        <div class="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="readout-content">
+          <h2 id="result-label">Средний темп</h2>
+          <div class="reading"><output id="result" aria-live="polite">—</output><span id="unit"></span></div>
+          <p id="context"></p>
+          <div id="actions" class="result-actions" hidden>
+            <button id="copy" type="button">Скопировать результат</button>
+            <a id="telegram" target="_blank" rel="noopener">В Telegram</a>
+          </div>
+          <p id="status" role="status" hidden></p>
+        </div>
+      </section>
+    </div>
+    <section class="below" id="below" hidden></section>
+  </main>
+</body>
 </html>
